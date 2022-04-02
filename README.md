@@ -51,6 +51,14 @@ $assets_manager->enqueue( [
     'deps'   => [ 'jquery' ]
 ] );
 
+$assets_manager->on( is_single() )
+  ->remove_scripts(['my-handle-1', 'my-handle-2'])
+  ->remove_styles(['my-handle-1', 'my-handle-2'])
+  ->enqueue([
+  		'handle' => 'my-stylesheet',
+		'src'    => 'my_path/to/file.css',
+    ])
+
 $assets_manager->collect( [
 	[
 		'handle' => 'my-script',
@@ -81,5 +89,11 @@ $assets_manager->register( [
     'deps'   => [ 'jquery' ]
 ] );
 
-$assets_manager->remove_scripts([ 'script-handle', 'style-handle' ]);
+$assets_manager->on( is_single() )
+  ->remove_scripts(['my-handle-1', 'my-handle-2'])
+  ->remove_styles(['my-handle-1', 'my-handle-2'])
+  ->register([
+  		'handle' => 'my-stylesheet',
+		'src'    => 'my_path/to/file.css',
+    ])
 ````

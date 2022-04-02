@@ -40,7 +40,7 @@ class AssetsManager {
 	protected array $style_deps;
 
 	/** @phpstan-ignore-next-line */
-	public function __construct( $config = [] ) {
+	public function __construct( $config ) {
 		$this->version = $config['version'] ?? false;
 		$this->media = $config['media'] ?? 'all';
 		$this->in_footer = $config['in_footer'] ?? false;
@@ -337,6 +337,27 @@ class AssetsManager {
 	 */
 	public function script_is_registered( string $handle ): bool {
 		return \wp_script_is( $handle, 'registered' );
+	}
+
+	/**
+	 * @return bool|mixed|string|null
+	 */
+	public function get_version() {
+		return $this->version;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function get_script_deps(): array {
+		return $this->script_deps;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function get_style_deps(): array {
+		return $this->style_deps;
 	}
 
 	/**

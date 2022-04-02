@@ -1,7 +1,7 @@
 {
   "name": "pangolia/assets",
   "description": "WP Assets manager.",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "scripts": {
     "phpcs": "./vendor/bin/phpcs --standard=./phpcs.xml",
     "phpstan": "./vendor/bin/phpstan analyze -c ./phpstan.neon --memory-limit 99",

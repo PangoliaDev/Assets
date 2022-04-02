@@ -1,0 +1,52 @@
+{
+  "name": "pangolia/assets",
+  "description": "WP Assets manager.",
+  "version": "0.1.0",
+  "scripts": {
+    "phpcs": "./vendor/bin/phpcs --standard=./phpcs.xml",
+    "phpstan": "./vendor/bin/phpstan analyze -c ./phpstan.neon --memory-limit 99",
+    "phpunit": "./vendor/bin/phpunit",
+    "bench": "./vendor/bin/phpbench run tests/Benchmark --progress=none --report=default",
+    "bench-regression": "./vendor/bin/phpbench run tests/Benchmark --report=aggregate --retry-threshold=5 --iterations=10"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pangolia\\Assets\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "classmap": ["src/"],
+    "psr-4": {
+      "Pangolia\\AssetsTests\\": "tests/",
+      "Pangolia\\AssetsTests\\Mocks\\": "tests/mocks/"
+    }
+  },
+  "require": {
+    "php": ">=7.4"
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+    "wp-coding-standards/wpcs": "*",
+    "automattic/phpcs-neutron-ruleset": "^3.3",
+    "phpcompatibility/phpcompatibility-wp": "^2.1",
+    "szepeviktor/phpstan-wordpress": "^0.7.5",
+    "php-stubs/wordpress-stubs": "^5.7",
+    "brain/monkey": "~2.0.0",
+    "phpunit/phpunit": "^9",
+    "phpbench/phpbench": "^1.2"
+  },
+  "license": "BSD-2-Clause",
+  "authors": [
+    {
+      "name": "Pangolia",
+      "email": "brandon@pangolia.com",
+      "homepage": "https://pangolia.com"
+    }
+  ],
+  "config": {
+    "platform": {
+      "php": "7.4"
+    },
+    "platform-check": false
+  }
+}

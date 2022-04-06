@@ -1,7 +1,7 @@
 {
   "name": "pangolia/assets",
   "description": "WP Assets manager.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "scripts": {
     "phpcs": "./vendor/bin/phpcs --standard=./phpcs.xml",
     "phpstan": "./vendor/bin/phpstan analyze -c ./phpstan.neon --memory-limit 99",
@@ -47,6 +47,9 @@
     "platform": {
       "php": "7.4"
     },
-    "platform-check": false
+    "platform-check": false,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }

@@ -6,46 +6,67 @@ namespace Pangolia\Assets\Traits;
 trait RegisterTrait {
 
 	/**
-	 * @param array<string, mixed> $asset
+	 * @param string           $handle
+	 * @param string           $src
+	 * @param string[]         $deps
+	 * @param string|bool|null $ver
+	 * @param bool|null        $in_footer
 	 * @return $this
 	 */
-	public function register_style( array $asset ): self {
+	public function register_script(
+		string $handle,
+		string $src,
+		array $deps = [],
+		$ver = null,
+		$in_footer = null
+	): self {
 		if ( $this->condition === false ) {
 			return $this;
 		}
 
-		\wp_register_style(
-			$asset['handle'],
-			$asset['src'],
+		\wp_register_script(
+			$handle,
+			$src,
 			\array_merge(
-				$this->style_deps,
-				$asset['deps'] ?? []
+				$this->script_deps,
+				$deps
 			),
-			$asset['ver'] ?? $this->version,
-			$asset['media'] ?? $this->media,
+			$ver ?? $this->version,
+			$in_footer ?? $this->in_footer,
 		);
 
 		return $this;
 	}
 
 	/**
-	 * @param array<string, mixed> $asset
+	 * @param string           $handle
+	 * @param string           $src
+	 * @param string[]         $deps
+	 * @param string|bool|null $ver
+	 * @param string|null      $media
 	 * @return $this
 	 */
-	public function register_script( array $asset ): self {
+	public function register_style(
+		string $handle,
+		string $src = '',
+		array $deps = [],
+		$ver = null,
+		$media = null
+	): self {
 		if ( $this->condition === false ) {
 			return $this;
 		}
 
-		\wp_register_script(
-			$asset['handle'],
-			$asset['src'],
+		\wp_register_style(
+			$handle,
+			$src,
 			\array_merge(
-				$this->script_deps,
-				$asset['deps'] ?? []
+				$this->style_deps,
+				$deps
 			),
-			$asset['ver'] ?? $this->version,
-			$asset['in_footer'] ?? $this->in_footer,
+			$ver ?? $this->version,
+			/** @phpstan-ignore-next-line will always be a string */
+			$media ?? $this->media,
 		);
 
 		return $this;

@@ -6,50 +6,67 @@ namespace Pangolia\Assets\Traits;
 trait EnqueueTrait {
 
 	/**
-	 * @param string|array<string, mixed> $asset
+	 * @param string           $handle
+	 * @param string           $src
+	 * @param string[]         $deps
+	 * @param string|bool|null $ver
+	 * @param bool|null        $in_footer
 	 * @return $this
 	 */
-	public function enqueue_script( $asset ): self {
+	public function enqueue_script(
+		string $handle,
+		string $src = '',
+		array $deps = [],
+		$ver = null,
+		$in_footer = null
+	): self {
 		if ( $this->condition === false ) {
 			return $this;
 		}
 
-		\is_string( $asset )
-			? \wp_enqueue_script( $asset )
-			: \wp_enqueue_script(
-			$asset['handle'],
-			$asset['src'] ?? '',
+		\wp_enqueue_script(
+			$handle,
+			$src,
 			\array_merge(
 				$this->script_deps,
-				$asset['deps'] ?? []
+				$deps
 			),
-			$asset['ver'] ?? $this->version,
-			$asset['in_footer'] ?? $this->in_footer,
+			$ver ?? $this->version,
+			$in_footer ?? $this->in_footer,
 		);
 
 		return $this;
 	}
 
 	/**
-	 * @param string|array<string, mixed> $asset
+	 * @param string           $handle
+	 * @param string           $src
+	 * @param string[]         $deps
+	 * @param string|bool|null $ver
+	 * @param string|null      $media
 	 * @return $this
 	 */
-	public function enqueue_style( $asset ): self {
+	public function enqueue_style(
+		string $handle,
+		string $src = '',
+		array $deps = [],
+		$ver = null,
+		$media = null
+	): self {
 		if ( $this->condition === false ) {
 			return $this;
 		}
 
-		\is_string( $asset )
-			? \wp_enqueue_style( $asset )
-			: \wp_enqueue_style(
-			$asset['handle'],
-			$asset['src'] ?? '',
+		\wp_enqueue_style(
+			$handle,
+			$src,
 			\array_merge(
 				$this->style_deps,
-				$asset['deps'] ?? []
+				$deps
 			),
-			$asset['ver'] ?? $this->version,
-			$asset['media'] ?? $this->media,
+			$ver ?? $this->version,
+			/** @phpstan-ignore-next-line will always be a string */
+			$media ?? $this->media,
 		);
 
 		return $this;

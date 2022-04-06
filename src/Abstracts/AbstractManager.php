@@ -49,7 +49,7 @@ abstract class AbstractManager {
 	 */
 	protected bool $condition;
 
-	/** @phpstan-ignore-next-line */
+	/** @phpstan-ignore-next-line injection */
 	public function __construct( $config ) {
 		$this->version = $config['version'] ?? false;
 		$this->media = $config['media'] ?? 'all';
@@ -129,13 +129,37 @@ abstract class AbstractManager {
 		switch ( $ext ) {
 			case 'css':
 				$job === $this::ENQUEUE
-					? $this->enqueue_style( $asset )
-					: $this->register_style( $asset );
+					? $this->enqueue_style(
+						$asset['handle'],
+						$asset['src'] ?? '',
+						$asset['deps'] ?? [],
+						$asset['ver'] ?? $this->version,
+						$asset['media'] ?? $this->media
+					)
+					: $this->register_style(
+						$asset['handle'],
+						$asset['src'],
+						$asset['deps'] ?? [],
+						$asset['ver'] ?? $this->version,
+						$asset['media'] ?? $this->media
+					);
 				break;
 			case 'js':
 				$job === $this::ENQUEUE
-					? $this->enqueue_script( $asset )
-					: $this->register_script( $asset );
+					? $this->enqueue_script(
+						$asset['handle'],
+						$asset['src'] ?? '',
+						$asset['deps'] ?? [],
+						$asset['ver'] ?? $this->version,
+						$asset['in_footer'] ?? $this->in_footer
+					)
+					: $this->register_script(
+						$asset['handle'],
+						$asset['src'],
+						$asset['deps'] ?? [],
+						$asset['ver'] ?? $this->version,
+						$asset['in_footer'] ?? $this->in_footer
+					);
 				break;
 		}
 	}
@@ -150,9 +174,23 @@ abstract class AbstractManager {
 		}
 
 		foreach ( $handles as $handle ) {
-			$this->deregister_style( $handle );
-			$this->dequeue_style( $handle );
+			$this->remove_style( $handle );
 		}
+
+		return $this;
+	}
+
+	/**
+	 * @param string $handle
+	 * @return $this
+	 */
+	public function remove_style( string $handle ): self {
+		if ( $this->condition === false ) {
+			return $this;
+		}
+
+		$this->deregister_style( $handle );
+		$this->dequeue_style( $handle );
 
 		return $this;
 	}
@@ -167,9 +205,23 @@ abstract class AbstractManager {
 		}
 
 		foreach ( $handles as $handle ) {
-			$this->deregister_script( $handle );
-			$this->dequeue_script( $handle );
+			$this->remove_script( $handle );
 		}
+
+		return $this;
+	}
+
+	/**
+	 * @param string $handle
+	 * @return $this
+	 */
+	public function remove_script( string $handle ): self {
+		if ( $this->condition === false ) {
+			return $this;
+		}
+
+		$this->deregister_script( $handle );
+		$this->dequeue_script( $handle );
 
 		return $this;
 	}

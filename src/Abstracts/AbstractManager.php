@@ -228,9 +228,13 @@ abstract class AbstractManager {
 
 	/**
 	 * @param array $scripts
-	 * @return void
+	 * @return void|$this
 	 */
 	public function localize_scripts( array $scripts ) {
+		if ( $this->condition === false ) {
+			return $this;
+		}
+
 		foreach ( $scripts as $script ) {
 			$this->localize_script( $script['handle'], $script['object_name'], $script['l10n'] );
 		}
@@ -240,17 +244,25 @@ abstract class AbstractManager {
 	 * @param string $handle
 	 * @param string $object_name
 	 * @param array  $l10n
-	 * @return bool
+	 * @return bool|$this
 	 */
-	public function localize_script( string $handle, string $object_name, array $l10n ): bool {
+	public function localize_script( string $handle, string $object_name, array $l10n ) {
+		if ( $this->condition === false ) {
+			return $this;
+		}
+
 		return \wp_localize_script( $handle, $object_name, $l10n );
 	}
 
 	/**
 	 * @param $scripts
-	 * @return void
+	 * @return void|$this
 	 */
 	public function add_inline_scripts( $scripts ) {
+		if ( $this->condition === false ) {
+			return $this;
+		}
+
 		foreach ( $scripts as $script ) {
 			$this->add_inline_script( $script['handle'], $script['data'], $script['position'] ?? 'after' );
 		}
@@ -260,9 +272,13 @@ abstract class AbstractManager {
 	 * @param string $handle
 	 * @param string $data
 	 * @param string $position
-	 * @return bool
+	 * @return bool|$this
 	 */
-	public function add_inline_script( string $handle, string $data, string $position = 'after' ): bool {
+	public function add_inline_script( string $handle, string $data, string $position = 'after' ) {
+		if ( $this->condition === false ) {
+			return $this;
+		}
+
 		return \wp_add_inline_script( $handle, $data, $position );
 	}
 

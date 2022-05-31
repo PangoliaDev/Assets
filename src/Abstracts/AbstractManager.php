@@ -227,6 +227,46 @@ abstract class AbstractManager {
 	}
 
 	/**
+	 * @param array $scripts
+	 * @return void
+	 */
+	public function localize_scripts( array $scripts ) {
+		foreach ( $scripts as $script ) {
+			$this->localize_script( $script['handle'], $script['object_name'], $script['l10n'] );
+		}
+	}
+
+	/**
+	 * @param string $handle
+	 * @param string $object_name
+	 * @param array  $l10n
+	 * @return bool
+	 */
+	public function localize_script( string $handle, string $object_name, array $l10n ): bool {
+		return \wp_localize_script( $handle, $object_name, $l10n );
+	}
+
+	/**
+	 * @param $scripts
+	 * @return void
+	 */
+	public function add_inline_scripts( $scripts ) {
+		foreach ( $scripts as $script ) {
+			$this->add_inline_script( $script['handle'], $script['data'], $script['position'] ?? 'after' );
+		}
+	}
+
+	/**
+	 * @param string $handle
+	 * @param string $data
+	 * @param string $position
+	 * @return bool
+	 */
+	public function add_inline_script( string $handle, string $data, string $position = 'after' ): bool {
+		return \wp_add_inline_script( $handle, $data, $position );
+	}
+
+	/**
 	 * @return string|bool|null
 	 */
 	public function get_version() {
